@@ -22,7 +22,7 @@ class segmented_dac(thesdk):
         self.model='py';                #can be set externally, but is not propagated
         self.par= False                 #By default, no parallel processing
         self.queue= []                  #By default, no parallel processing
-        self._Z = IO;             # Pointer for output data
+        self._Z = IO();             # Pointer for output data
         if len(arg)>=1:
             parent=arg[0]
             self.copy_propval(parent,self.proplist)
