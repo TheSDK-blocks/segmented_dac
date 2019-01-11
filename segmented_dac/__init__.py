@@ -22,7 +22,7 @@ class segmented_dac(thesdk):
         self.model='py';                #can be set externally, but is not propagated
         self.par= False                 #By default, no parallel processing
         self.queue= []                  #By default, no parallel processing
-        self._Z = refptr();             # Pointer for output data
+        self._Z = IO;             # Pointer for output data
         if len(arg)>=1:
             parent=arg[0]
             self.copy_propval(parent,self.proplist)
@@ -31,13 +31,13 @@ class segmented_dac(thesdk):
     def init(self):
         pass
     def main(self):
-        out=(np.char.count(self.iptr_real_t.Value,'1')*2**self.Dacbinbits
-                +self.iptr_real_b.Value-(2**(self.Dacbits-1)-1)
-                +1j*(np.char.count(self.iptr_imag_t.Value,'1')*2**self.Dacbinbits
-                    +self.iptr_imag_b.Value-(2**(self.Dacbits-1)-1))).reshape(-1,1)
+        out=(np.char.count(self.iptr_real_t.Data,'1')*2**self.Dacbinbits
+                +self.iptr_real_b.Data-(2**(self.Dacbits-1)-1)
+                +1j*(np.char.count(self.iptr_imag_t.Data,'1')*2**self.Dacbinbits
+                    +self.iptr_imag_b.Data-(2**(self.Dacbits-1)-1))).reshape(-1,1)
         if self.par:
             self.queue.put(out)
-        self._Z.Value=out
+        self._Z.Data=out
 
     def run(self,*arg):
         if len(arg)>0:
